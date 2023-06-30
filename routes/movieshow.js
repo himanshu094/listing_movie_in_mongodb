@@ -1,12 +1,19 @@
 var express = require('express');
 var router = express.Router();
-const pool=require('./pool');
 const upload=require('./multer');
 const fs=require("fs");
 const LocalStorage=require('node-localstorage').LocalStorage;
       localStorage=new LocalStorage('./scratch');
+const State=require("./model/stateModel.js");
 
 /* GET movielisting page. */
+router.get("/createschema",function(req,res){
+  const ST=new State();
+  res.send("Created")
+})
+
+
+/*
 router.get('/listyourshow', function(req, res, next) {
   try{
     var admin=JSON.parse(localStorage.getItem('ADMIN'));
@@ -241,5 +248,6 @@ router.post('/edit_poster',upload.single('movieposter'),function(req,res){
     res.redirect('/movie/fetch_all_show')
   }
 })
+*/
 
 module.exports = router;
