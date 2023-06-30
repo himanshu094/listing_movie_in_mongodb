@@ -1,0 +1,127 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ?  div style -----------------------------------------------=============*/
+
+.maincontainer{
+  background-image: url(/images/background.jpg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box{
+  border:2px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  background: transparent;
+  box-shadow: 0 0 30px rgba(0,0,0,.5);
+  width: 90%;
+  height: 90%;
+  /* box-shadow: 1px 1px 8px 2px #d20795; */
+  /* box-shadow: 1px 1px 8px 2px #337fd7; */
+  border-radius: 10px;
+
+  padding-inline: 35px;
+  padding-block: 30px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+.headingdiv{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 20px;
+  gap: 10px;
+ justify-content: space-between;
+}
+.left-heading
+{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heading{
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 26px;
+  font-weight: bold;
+  color: #000;
+  letter-spacing: 1;
+}
+/* ?  other style -----------------------------------------------=============*/
+.image{
+  width: 30px;
+  
+}
+th{
+  text-align: center;
+}
+
+.table th,.table td{
+  background: transparent ;
+  color: black;
+  
+}
+
+.mposter{
+  width: 40px;
+  height: 50px;
+  
+}
+
+.ancor:hover{
+  box-shadow: 5px 5px 30px 5px #660707;
+}
+
+/* ?  scrollbar style -----------------------------------------------=============*/
+
+::-webkit-scrollbar{
+  width: 12px;
+  
+}
+::-webkit-scrollbar-track{
+  background: #d1e5ff;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb{
+  /* background: linear-gradient(#6ACEC1 , #8429CB); */
+  background: #777;
+  border-radius: 10px;
+}
+
+/* ?  botton style -----------------------------------------------=============*/
+
+.btn{
+  
+  background-color: #162938;
+  cursor: pointer;
+  border: 1px solid black;
+}
+.btn:hover{
+  background-color: rgba(255, 255, 255,0.5);
+  color: #000000;
+  box-shadow: 2px 2px 10px 5px #162938;
+  border: 1px solid black;
+}
+.btn:active{
+  background-color: #162938 !important;
+  border: #000000 !important;
+}
+.editpic{
+  font-size: 8px;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: yellow;
+}
+.editpic:hover{
+  font-size: 8px;
+  color: red;
+}

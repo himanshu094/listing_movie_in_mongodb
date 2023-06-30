@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <title>BookMyShow</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <form action="/movie/edit_movie" method="post" >
+      <input type="hidden" name="movieid" value="<%=data.movieid%>">
+      <div class="maincontainer">
+        <div class="box">
+
+
+          <div class="headingdiv">
+            <div class="left-heading">
+                <div><img src="/images/logo.png" class="image" ></div>
+                <div class="heading">Update Your Show</div> 
+            </div>
+            <div>
+              <a href="/movie/fetch_all_show"><button class="btn btn-primary" type="button">View All Show</button></a></div>
+          </div>
+
+
+          <div class="formDiv">
+
+            <div class="row gap">
+              <div class="col-md-6">
+                <select required class="form-select" name="stateid" aria-label="Default select example" id="stateid">
+                  <option selected value="<%=data.stateid%>"><%=data.statename%></option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <select required class="form-select" name="cityid" aria-label="Default select example" id="cityid">
+                  <option selected value="<%=data.cityid%>"><%=data.cityname%></option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row gap">
+              <div class="col-md-6">
+                <select required class="form-select" name="cinemaid" aria-label="Default select example" id="cinemaid">
+                  <option selected value="<%=data.cinemaid%>"><%=data.cinemaname%></option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <select required class="form-select" name="screenid" aria-label="Default select example" id="screenid">
+                  <option selected value="<%=data.screenid%>"><%=data.screenname%></option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row gap">
+              <div class="col-md-6">
+                <input required type="text" class="form-control" placeholder="Movie Name" name="moviename" value="<%=data.moviename%>">           
+              </div>
+              <div class="col-md-6">
+                <select required class="form-select" name="status" aria-label="Default select example" id="productcategoryid">
+                  <option selected ><%=data.status%></option>
+                  <option>Running</option>
+                  <option>Comming soon</option>
+                  <option>Discontinue</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row  gap">
+              <div class="col-md-12">
+                <input required type="text" class="form-control" placeholder="Description" name="description" value="<%=data.description%>">
+              </div>
+            </div>
+
+            <div class="row gap">
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Update</button>
+              </div>
+              <!-- <div class="col-md-6">
+                <button type="reset" class="btn btn-primary">Delete</button>
+              </div> -->
+            </div>
+            
+          </div>
+
+        </div>
+      </div>
+      
+    </form>
+  </body>
+</html>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="/javascripts/script.js"></script>
