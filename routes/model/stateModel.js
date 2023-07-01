@@ -5,8 +5,7 @@
              require:true}
  })
 
-
-module.exports=mongoose.model("state",stateSchema);
+module.exports=mongoose.model("statetb",stateSchema);
 
 
 

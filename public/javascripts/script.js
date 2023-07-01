@@ -6,7 +6,7 @@ function fillState(json)
   const data=json.result;
   data.map((item)=>{
     $('#stateid').append(
-      $('<option>').text(item.statename).val(item.stateid)
+      $('<option>').text(item.statename).val(item._id)
     )
   })
 }
@@ -21,7 +21,7 @@ function fillCityData(json)
   $("#cityid").empty()
   $("#cityid").append($("<option>").text("-Select City-"));
   data.map((item)=>{
-    $("#cityid").append($("<option>").text(item.cityname).val(item.cityid))
+    $("#cityid").append($("<option>").text(item.cityname).val(item._id))
   })
 }
 
@@ -32,7 +32,7 @@ function fillCinema(json)
   const data=json.result;
   data.map((item)=>{
     $('#cinemaid').append(
-      $('<option>').text(item.cinemaname).val(item.cinemaid)
+      $('<option>').text(item.cinemaname).val(item._id)
     )
   })
 }
@@ -47,7 +47,7 @@ function fillScreenData(json)
   $("#screenid").empty()
   $("#screenid").append($("<option>").text("-Select Screen-"));
   data.map((item)=>{
-    $("#screenid").append($("<option>").text(item.screenname).val(item.screenid))
+    $("#screenid").append($("<option>").text(item.screenname).val(item._id))
   })
 }
 

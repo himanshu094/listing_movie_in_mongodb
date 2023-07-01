@@ -5,15 +5,85 @@ const fs=require("fs");
 const LocalStorage=require('node-localstorage').LocalStorage;
       localStorage=new LocalStorage('./scratch');
 const State=require("./model/stateModel.js");
+const City=require("./model/cityModel.js");
+const Movie=require("./model/moviesModel.js");
+const Cinema=require("./model/cinemaModel.js");
+const Screen=require("./model/screenModel.js");
 
 /* GET movielisting page. */
 router.get("/createschema",function(req,res){
   const ST=new State();
+  const CT=new City();
+  const MO=new Movie(); 
+  const CN=new Cinema();
+  const SC=new Screen();
   res.send("Created")
 })
 
+router.get('/listyourshow', function(req, res, next) {
+      res.render('movielisting',{message:''});
+});
+
+router.get('/fetch_state',function(req,res){
+  State.find({}).then((result)=>{
+    res.json({result:result})
+  }).catch((e)=>{
+    res.json({result:e})
+  })
+})
+
+router.get('/fetch_city',function(req,res){
+    City.find({"stateid._id":req.query.stateid}).then((result)=>{
+      res.json({result:result})
+    }).catch((e)=>{
+      res.json({result:e})
+    })
+})
+
+router.get('/fetch_cinema',function(req,res){
+  Cinema.find({}).then((result)=>{
+    res.json({result:result})
+  }).catch((e)=>{
+    res.json({result:e})
+  })
+})
+
+router.get('/fetch_screen',function(req,res){
+  Screen.find({"cinemaid._id":req.query.cinemaid}).then((result)=>{
+    res.json({result:result})
+  }).catch((e)=>{
+    res.json({result:e})
+  })
+})
+
+router.post('/datasubmited',upload.single('poster'),function(req,res){
+  try{
+    console.log("DATA:",req.body);
+    console.log("file Data:",req.file);
+    const body={...req.body,poster:req.file.filename}
+    console.log("movie all submited Data:",body);
+    const movie=new Movie(body);
+    movie.save().then((savedData)=>{
+      if(movie==savedData)
+      {
+        res.render("movielisting",{messge:"submitted Successfully"});
+      }
+      else
+      {
+        res.render("movielisting",{message:"Database Error"}); 
+      }
+    })
+
+  }
+  catch(e)
+  {
+    console.log("Error:",e);
+    res.render("movielisting",{message:'Server Error'}); 
+  }
+})
 
 /*
+// !done
 router.get('/listyourshow', function(req, res, next) {
   try{
     var admin=JSON.parse(localStorage.getItem('ADMIN'));
@@ -32,6 +102,7 @@ router.get('/listyourshow', function(req, res, next) {
   }
 });
 
+// !done
 router.post('/datasubmited',upload.single('poster'),function(req,res){
   try{
     console.log("DATA:",req.body);
@@ -56,7 +127,7 @@ router.post('/datasubmited',upload.single('poster'),function(req,res){
   }
 })
 
-
+// !done
 router.get('/fetch_state',function(req,res){
   try{
     pool.query('select * from state',function(error,result){
@@ -76,6 +147,7 @@ router.get('/fetch_state',function(req,res){
   }
 })
 
+// !done
 router.get('/fetch_city',function(req,res){
   try{
     pool.query('select * from city where stateid=?',[req.query.stateid],function(error,result){
@@ -95,6 +167,7 @@ router.get('/fetch_city',function(req,res){
   }
 })
 
+// !done
 router.get('/fetch_cinema',function(req,res){
   try{
     pool.query('select * from cinema',function(error,result){
@@ -114,6 +187,7 @@ router.get('/fetch_cinema',function(req,res){
   }
 })
 
+// !done
 router.get('/fetch_screen',function(req,res){
   try{
     pool.query('select * from screen where cinemaid=?',[req.query.cinemaid],function(error,result){
