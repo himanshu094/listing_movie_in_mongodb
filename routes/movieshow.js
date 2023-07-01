@@ -60,13 +60,13 @@ router.post('/datasubmited',upload.single('poster'),function(req,res){
   try{
     console.log("DATA:",req.body);
     console.log("file Data:",req.file);
-    const body={...req.body,poster:req.file.filename}
+    var body={...req.body,poster:req.file.filename};
     console.log("movie all submited Data:",body);
     const movie=new Movie(body);
-    movie.save().then((savedData)=>{
-      if(movie==savedData)
+    movie.save().then((saveData)=>{
+      if(movie==saveData)
       {
-        res.render("movielisting",{messge:"submitted Successfully"});
+        res.render("movielisting",{message:"submitted Successfully"});
       }
       else
       {
