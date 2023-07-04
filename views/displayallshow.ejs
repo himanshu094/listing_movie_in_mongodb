@@ -51,11 +51,11 @@
           <%data.map((item,i)=>{%>
         <tr>
             <td><%=i+1%></td>
-          <td>[<%=item.movieid%>]<br> <b><%=item.moviename%></b></td>
-          <td><%=item.statename%></td>
-          <td><%=item.cityname%></td>
-          <td><b><%=item.cinemaname%></b></td>
-          <td><img src="/images/<%=item.cinemalogo%>" width="35px"><br><%=item.screenname%></td>
+          <td>[<%=item._id%>]<br> <b><%=item.moviename%></b></td>
+          <td><%=item.stateData[0].statename%></td>
+          <td><%=item.cityData[0].cityname%></td>
+          <td><b><%=item.cinemaData[0].cinemaname%></b></td>
+          <td><img src="/images/<%=item.cinemaData[0].cinemalogo%>" width="35px"><br><%=item.screenData[0].screenname%></td>
           <td><%=item.description%></td>
           <td><%=item.status%></td>  
           <td>
@@ -63,10 +63,10 @@
             <a href="/movie/display_poster_for_edit?movieid=<%=item.movieid%>&moviename=<%=item.moviename%>&poster=<%=item.poster%>" class="editpic">Edit Poster</a>
           </td>
           <td>
-            <a href="/movie/displayforedit?movieid=<%=item.movieid%>"><button class="btn btn-primary">Edit</button></a>
+            <a href="/movie/displayforedit?movieid=<%=item._id%>"><button class="btn btn-primary">Edit</button></a>
           </td>
           <td>
-            <a href="/movie/delete_show?movieid=<%=item.movieid%>"><button class="btn btn-primary">Delete</button></a>
+            <a href="/movie/delete_show?movieid=<%=item._id%>"><button class="btn btn-primary">Delete</button></a>
           </td>
         </tr> 
           <%})%>

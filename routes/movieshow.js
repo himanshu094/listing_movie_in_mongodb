@@ -9,6 +9,7 @@ const City=require("./model/cityModel.js");
 const Movie=require("./model/moviesModel.js");
 const Cinema=require("./model/cinemaModel.js");
 const Screen=require("./model/screenModel.js");
+const {ObjectId}=require('mongodb')
 
 /* GET movielisting page. */
 router.get("/createschema",function(req,res){
@@ -56,6 +57,7 @@ router.get('/fetch_screen',function(req,res){
   })
 })
 
+
 router.post('/datasubmited',upload.single('poster'),function(req,res){
   try{
     console.log("DATA:",req.body);
@@ -73,7 +75,6 @@ router.post('/datasubmited',upload.single('poster'),function(req,res){
         res.render("movielisting",{message:"Database Error"}); 
       }
     })
-
   }
   catch(e)
   {
@@ -82,6 +83,153 @@ router.post('/datasubmited',upload.single('poster'),function(req,res){
   }
 })
 
+router.get("/fetch_all_show",function(req,res){
+  try{
+    Movie.aggregate(
+      [
+        {
+          $lookup:{
+            from:"statetbs",
+            localField:"stateid",
+            foreignField:"_id",
+            as:"stateData"
+          }
+        },
+        {
+          $lookup:{
+            from:"citytbs",
+            localField:"cityid",
+            foreignField:"_id",
+            as:"cityData"
+          }
+        },
+        {
+          $lookup:{
+            from:"cinematbs",
+            localField:"cinemaid",
+            foreignField:"_id",
+            as:"cinemaData"
+          }
+        },
+        {
+          $lookup:{
+            from:"screentbs",
+            localField:"screenid",
+            foreignField:"_id",
+            as:"screenData"
+          }
+        }
+      ],
+      {$unwind:"$stateData"},
+      {$unwind:"$cityData"},
+      {$unwind:"$cinemaData"},
+      {$unwind:"$screenData"}
+    ).then((result)=>{
+     // console.log("Result",result);
+     // console.log("Result",result[0].stateData[0].statename);
+
+      res.render("displayallshow",{
+             status:true,
+             data:result
+      })
+    })
+  }
+  catch(e)
+  {
+    console.log("Error",e);
+    req.render("loginpage",{data:[],message:'server error'})
+  }
+});
+
+router.get("/displayforedit",function(req,res){
+  try{
+    Movie.aggregate(
+      [
+        {
+          $lookup:{
+            from:"statetbs",
+            localField:"stateid",
+            foreignField:"_id",
+            as:"stateData"
+          }
+        },
+        {
+          $lookup:{
+            from:"citytbs",
+            localField:"cityid",
+            foreignField:"_id",
+            as:"cityData"
+          }
+        },
+        {
+          $lookup:{
+            from:"cinematbs",
+            localField:"cinemaid",
+            foreignField:"_id",
+            as:"cinemaData"
+          }
+        },
+        {
+          $lookup:{
+            from:"screentbs",
+            localField:"screenid",
+            foreignField:"_id",
+            as:"screenData"
+          }
+        },
+        { 
+          $match: { _id: new ObjectId(req.query.movieid) } 
+        }
+      ],
+      {$unwind:"$stateData"},
+      {$unwind:"$cityData"},
+      {$unwind:"$cinemaData"},
+      {$unwind:"$screenData"}
+    ).then((result)=>{
+     // console.log("Result for efit",result);
+     // console.log("Result for efit",result[0].stateData[0].statename);
+
+      res.render("displayforedit",{
+             data:result[0],message:"Success"
+      })
+    })
+  }
+  catch(e)
+  {
+    console.log("Error",e);
+    req.render("displayforedit",{data:[],message:'server error'})
+  }
+})
+
+
+router.post('/edit_movie',function(req,res){
+  try{
+      console.log("Edit Data!!!!!",req.body);
+      const {movieid,...data}=req.body;
+      Movie.updateOne({"_id":movieid},data).then((result)=>{
+        res.redirect('/movie/fetch_all_show');
+      });   
+  }
+   catch(e)
+   {
+     console.log("Error:",e);
+     res.redirect('/movie/fetch_all_show')
+   }
+});
+
+router.get('/delete_show',function(req,res){
+  try{  const {movieid}=req.query;
+        //console.log("DeleteData",req.query);
+        Movie.deleteOne({"_id":movieid}).then((result)=>{
+          res.redirect('/movie/fetch_all_show');
+        })
+  }
+  catch(e)
+  {
+    console.log("Error:",e);
+    res.redirect('/movie/fetch_all_show')
+  }
+});
 /*
 // !done
 router.get('/listyourshow', function(req, res, next) {
@@ -207,6 +355,7 @@ router.get('/fetch_screen',function(req,res){
   }
 })
 
+// !done
 router.get("/fetch_all_show",function(req,res){
   try{
     var admin=JSON.parse(localStorage.getItem('ADMIN'));
@@ -232,6 +381,7 @@ router.get("/fetch_all_show",function(req,res){
   }
 })
 
+// !done
 router.get("/displayforedit",function(req,res){
   try{
     pool.query('select M.*,(select S.statename from state S where S.stateid=M.stateid) as statename, (select C.cityname from city C where C.cityid=M.cityid) as cityname,(select CI.cinemaname from cinema CI where CI.cinemaid=M.cinemaid) as cinemaname,(select CI.cinemalogo from cinema CI where CI.cinemaid=M.cinemaid) as cinemalogo,(select SC.screenname from screen SC where SC.screenid=M.screenid) as screenname from movies M where M.movieid=?',[req.query.movieid],function(error,result){
@@ -252,6 +402,7 @@ router.get("/displayforedit",function(req,res){
   }
 })
 
+// !done
 router.post('/edit_movie',function(req,res){
   try{
     pool.query("update movies set stateid=?, cityid=?, cinemaid=?, screenid=?, moviename=?, description=?, status=? where movieid=?",
@@ -274,6 +425,7 @@ router.post('/edit_movie',function(req,res){
   }
 })
 
+// !done
 router.get('/delete_show',function(req,res){
   try{
     pool.query("delete from movies where movieid=?", [req.query.movieid],function(error,result){
@@ -294,6 +446,7 @@ router.get('/delete_show',function(req,res){
     res.redirect('/movie/fetch_all_show')
   }
 })
+
 
 router.get("/display_poster_for_edit",function(req,res){
   res.render("displayposterforedit",{data:req.query})

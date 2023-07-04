@@ -38,6 +38,4 @@ const movieSchema=mongoose.Schema({
               require:true
             }
 })
-
-
 module.exports=mongoose.model("movietbs",movieSchema);
